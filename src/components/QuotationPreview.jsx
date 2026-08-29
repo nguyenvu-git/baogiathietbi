@@ -89,74 +89,71 @@ export default function QuotationPreview({
       >
         <div>
           {/* Header Section: Logo & Seller Info */}
-          <div className="flex justify-between items-start border-b-2 border-blue-900 pb-6 mb-10">
-            <div className="flex items-center space-x-4">
-              {/* Strict Fixed Logo Box (32mm x 24mm with rounded corners) */}
+          <div className="flex justify-between items-start border-b border-blue-900 pb-3 mb-4">
+            <div className="flex items-center space-x-3">
+              {/* Strict Fixed Logo Box (28mm x 21mm with rounded corners) */}
               {seller.logo ? (
                 <div 
-                  className="shrink-0 overflow-hidden bg-white flex items-center justify-center border border-slate-200 shadow-sm rounded-xl p-1"
-                  style={{ width: '32mm', height: '24mm', borderRadius: '10px' }}
+                  className="shrink-0 overflow-hidden bg-white flex items-center justify-center border border-slate-200 shadow-sm rounded-lg p-0.5"
+                  style={{ width: '28mm', height: '21mm', borderRadius: '6px' }}
                 >
                   <img 
                     src={seller.logo} 
                     alt="Logo" 
-                    style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block', borderRadius: '6px' }} 
+                    style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block', borderRadius: '4px' }} 
                   />
                 </div>
               ) : (
                 <div 
-                  className="bg-blue-900 text-white font-bold flex items-center justify-center rounded-xl text-lg shrink-0 shadow-sm"
-                  style={{ width: '32mm', height: '24mm', borderRadius: '10px' }}
+                  className="bg-blue-900 text-white font-bold flex items-center justify-center rounded-lg text-base shrink-0 shadow-sm"
+                  style={{ width: '28mm', height: '21mm', borderRadius: '6px' }}
                 >
                   {seller.companyName ? seller.companyName.charAt(0) : 'BG'}
                 </div>
               )}
               <div>
-                <h1 className="text-base font-bold text-blue-950 uppercase tracking-wide">
+                <h1 className="text-sm font-bold text-blue-950 uppercase tracking-wide">
                   {seller.companyName || 'CÔNG TY BÁO GIÁ'}
                 </h1>
-                <p className="text-[11px] text-slate-600 mt-0.5">Địa chỉ: {seller.address}</p>
-                <p className="text-[11px] text-slate-600">
+                <p className="text-[10px] text-slate-600 mt-0.5 leading-tight">Địa chỉ: {seller.address}</p>
+                <p className="text-[10px] text-slate-600 leading-tight">
                   Hotline: <span className="font-semibold">{seller.phone}</span> | Email: {seller.email}
                 </p>
-                {seller.taxId && <p className="text-[11px] text-slate-600">MST: {seller.taxId}</p>}
+                {seller.taxId && <p className="text-[10px] text-slate-600 leading-tight">MST: {seller.taxId}</p>}
               </div>
             </div>
 
             <div className="text-right">
-              <span className="inline-block bg-blue-50 text-blue-900 text-xs font-bold px-3 py-1 rounded border border-blue-200 uppercase tracking-wider">
+              <span className="inline-block bg-blue-50 text-blue-900 text-[10px] font-bold px-2 py-0.5 rounded border border-blue-200 uppercase tracking-wider">
                 Bảng Báo Giá
               </span>
-              <p className="text-[10px] text-slate-500 mt-1.5 font-mono">Mã: {quotationMeta.code}</p>
-              <p className="text-[10px] text-slate-500 font-mono">Ngày: {quotationMeta.date}</p>
+              <p className="text-[9.5px] text-slate-500 mt-1 font-mono">Mã: {quotationMeta.code}</p>
+              <p className="text-[9.5px] text-slate-500 font-mono">Ngày: {quotationMeta.date}</p>
             </div>
           </div>
 
-          {/* Quotation Title */}
-          <div className="text-center my-10">
-            <h2 className="text-xl font-black text-blue-900 tracking-wider uppercase mb-2">
+          {/* Quotation Title - Compact font, removed validity line */}
+          <div className="text-center my-3">
+            <h2 className="text-base font-extrabold text-blue-900 tracking-wide uppercase">
               BẢNG BÁO GIÁ SẢN PHẨM & DỊCH VỤ
             </h2>
-            <p className="text-[11px] italic text-slate-500">
-              (Hiệu lực trong vòng {quotationMeta.validDays || 30} ngày kể từ ngày lập)
-            </p>
           </div>
 
-          {/* Buyer Info Box */}
-          <div className="bg-slate-50 rounded-lg p-4 border border-slate-200 mb-10 grid grid-cols-2 gap-4 text-slate-800 text-xs">
-            <div className="space-y-1">
+          {/* Buyer Info Box - Compact padding */}
+          <div className="bg-slate-50 rounded-lg p-2.5 px-3 border border-slate-200 mb-4 grid grid-cols-2 gap-3 text-slate-800 text-[11px] leading-tight">
+            <div className="space-y-0.5">
               <p><span className="font-bold">Kính gửi:</span> {buyer.customerName || 'Quý khách hàng'}</p>
               <p><span className="font-bold">Đơn vị:</span> {buyer.companyName || '---'}</p>
             </div>
-            <div className="space-y-1">
+            <div className="space-y-0.5">
               <p><span className="font-bold">Số điện thoại:</span> {buyer.phone || '---'}</p>
               <p><span className="font-bold">Địa chỉ:</span> {buyer.address || '---'}</p>
             </div>
           </div>
 
-          {/* Main Table - Shrink to fit content (w-auto) with comfortable px-3 padding */}
+          {/* Main Table - Shrink to fit content (w-auto) with compact vertical margin */}
           <table 
-            className="w-auto min-w-[60%] border-collapse border border-slate-300 mb-10 text-xs"
+            className="w-auto min-w-[60%] border-collapse border border-slate-300 mb-4 text-xs"
           >
             <thead>
               <tr className="bg-blue-900 text-white text-[11px] font-bold uppercase">
@@ -218,51 +215,51 @@ export default function QuotationPreview({
             </tbody>
           </table>
 
-          {/* Totals Summary */}
-          <div className="flex justify-end mb-8">
-            <div className="w-80 space-y-1.5 text-xs">
-              <div className="flex justify-between py-1 border-b border-slate-200">
+          {/* Totals Summary - Compact Spacing */}
+          <div className="flex justify-end mb-4">
+            <div className="w-72 space-y-1 text-[11px]">
+              <div className="flex justify-between py-0.5 border-b border-slate-200">
                 <span className="font-semibold text-slate-600">Tổng tiền hàng:</span>
                 <span className="font-mono font-bold text-slate-900">{totals.subtotal.toLocaleString('vi-VN')} đ</span>
               </div>
 
               {totals.discountAmount > 0 && (
-                <div className="flex justify-between py-1 border-b border-slate-200 text-emerald-700">
+                <div className="flex justify-between py-0.5 border-b border-slate-200 text-emerald-700">
                   <span>Chiết khấu ({totals.discountRate}%):</span>
                   <span className="font-mono font-bold">-{totals.discountAmount.toLocaleString('vi-VN')} đ</span>
                 </div>
               )}
 
               {totals.vatAmount > 0 && (
-                <div className="flex justify-between py-1 border-b border-slate-200">
+                <div className="flex justify-between py-0.5 border-b border-slate-200">
                   <span className="text-slate-600">Thuế VAT ({totals.vatRate}%):</span>
                   <span className="font-mono font-bold">+{totals.vatAmount.toLocaleString('vi-VN')} đ</span>
                 </div>
               )}
 
-              <div className="flex justify-between py-2 border-b-2 border-blue-900 text-sm font-bold text-blue-900">
+              <div className="flex justify-between py-1 border-b-2 border-blue-900 text-xs font-bold text-blue-900">
                 <span>TỔNG THANH TOÁN:</span>
-                <span className="font-mono text-base">{totals.grandTotal.toLocaleString('vi-VN')} đ</span>
+                <span className="font-mono text-sm">{totals.grandTotal.toLocaleString('vi-VN')} đ</span>
               </div>
 
-              <p className="text-right text-[10.5px] italic font-semibold text-slate-600 pt-1">
+              <p className="text-right text-[9.5px] italic font-semibold text-slate-600 pt-0.5">
                 (Bằng chữ: {numberToWordsVN(totals.grandTotal)})
               </p>
             </div>
           </div>
         </div>
 
-        {/* Footer & Signatures */}
-        <div className="mt-8 pt-4 border-t border-slate-200">
-          <div className="grid grid-cols-2 gap-6 text-center">
+        {/* Footer & Signatures - Compacted gap */}
+        <div className="mt-4 pt-2 border-t border-slate-200">
+          <div className="grid grid-cols-2 gap-4 text-center text-xs">
             <div>
               <p className="font-bold text-slate-900 uppercase">ĐẠI DIỆN KHÁCH HÀNG</p>
-              <p className="text-[10px] italic text-slate-500 mb-14">(Ký, ghi rõ họ tên)</p>
+              <p className="text-[9.5px] italic text-slate-500 mb-6">(Ký, ghi rõ họ tên)</p>
               <p className="font-semibold text-slate-800">{buyer.customerName}</p>
             </div>
             <div>
               <p className="font-bold text-blue-900 uppercase">ĐẠI DIỆN BÊN BÁO GIÁ</p>
-              <p className="text-[10px] italic text-slate-500 mb-14">(Ký, đóng dấu, ghi rõ họ tên)</p>
+              <p className="text-[9.5px] italic text-slate-500 mb-6">(Ký, đóng dấu, ghi rõ họ tên)</p>
               <p className="font-semibold text-slate-800">{seller.companyName}</p>
             </div>
           </div>
