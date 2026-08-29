@@ -153,16 +153,17 @@ export default function QuotationPreview({
 
           {/* Main Table - Shrink to fit content (w-auto) with compact vertical margin */}
           <table 
-            className="w-auto min-w-[60%] border-collapse border border-slate-300 mb-4 text-xs"
+            className="w-auto min-w-[60%] border-collapse mb-4 text-xs" style={{ border: '1.5px solid #334155' }}
           >
             <thead>
               <tr className="bg-blue-900 text-white text-[11px] font-bold uppercase">
                 {visibleColumns.map(col => (
                   <th 
                     key={col.id}
-                    className={`px-3 py-1 border border-blue-900 leading-tight whitespace-nowrap ${
+                    className={`px-3 py-1 leading-tight whitespace-nowrap ${
                       col.align === 'center' ? 'text-center' : col.align === 'right' ? 'text-right' : 'text-left'
                     }`}
+                    style={{ border: '1.5px solid #1e3a8a' }}
                   >
                     {col.title}
                   </th>
@@ -175,11 +176,12 @@ export default function QuotationPreview({
                   {visibleColumns.map(col => (
                     <td 
                       key={col.id}
-                      className={`px-3 py-1 border border-slate-300 align-middle text-[11.5px] leading-tight ${
+                      className={`px-3 py-1 align-middle text-[11.5px] font-medium leading-tight ${
                         col.type === 'name' ? 'break-words max-w-[220px]' : 'whitespace-nowrap'
                       } ${
                         col.align === 'center' ? 'text-center' : col.align === 'right' ? 'text-right' : 'text-left'
                       }`}
+                      style={{ border: '1px solid #475569' }}
                     >
                       {col.type === 'stt' && (idx + 1)}
 

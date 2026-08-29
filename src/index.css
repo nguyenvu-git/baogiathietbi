@@ -354,7 +354,7 @@ body {
 @media print {
   @page {
     size: A4 portrait;
-    margin: 10mm 12mm; /* Margin thực tế trên mỗi trang, nội dung sát mép trên ở trang 2, 3... */
+    margin: 0; /* margin: 0 → trình duyệt không có chỗ in tiêu đề, ngày, URL */
   }
 
   html, body {
@@ -389,14 +389,16 @@ body {
     margin: 0 !important;
   }
 
-  /* Quotation Printable Paper Sheet */
+  /* Quotation Printable Paper Sheet
+     Padding thủ công: top 8mm, left/right 12mm, bottom 8mm
+     Dùng padding-top trên EVERY page, kể cả trang 2, 3... */
   #quotation-print-area {
     display: block !important;
     visibility: visible !important;
     width: 100% !important;
     box-shadow: none !important;
     margin: 0 !important;
-    padding: 0 !important; /* @page margin handles the whitespace on all pages */
+    padding: 8mm 12mm !important;
     border: none !important;
     border-radius: 0 !important;
     position: relative !important;
@@ -411,7 +413,7 @@ body {
     border-collapse: collapse;
   }
 
-  /* Table header repeats at top of every new page, flush to top margin */
+  /* Table header repeats at top of every new page */
   thead {
     display: table-header-group;
   }
