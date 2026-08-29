@@ -75,12 +75,12 @@ export default function CompanyInfoForm({ seller, setSeller, buyer, setBuyer, qu
               </h3>
             </div>
 
-            {/* Logo Upload Box (Fixed 112px x 64px Box) */}
+            {/* Logo Upload Box (Clean Rectangular White Box) */}
             <div className="flex items-center gap-4">
-              <div className="relative w-28 h-16 rounded-xl border-2 border-dashed border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 flex flex-col items-center justify-center text-center overflow-hidden group shrink-0">
+              <div className="relative w-36 h-16 rounded-xl border-2 border-dashed border-slate-300 bg-white dark:bg-white flex flex-col items-center justify-center text-center overflow-hidden group shrink-0 shadow-sm">
                 {seller.logo ? (
                   <>
-                    <img src={seller.logo} alt="Company Logo" className="w-full h-full object-contain p-1.5" />
+                    <img src={seller.logo} alt="Company Logo" className="w-full h-full object-contain p-1 bg-white" />
                     <button
                       type="button"
                       onClick={() => setSeller({ ...seller, logo: null })}
