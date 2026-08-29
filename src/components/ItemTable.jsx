@@ -19,7 +19,9 @@ export default function ItemTable({
   items, 
   setItems, 
   totals, 
-  onOpenColumnManager 
+  onOpenColumnManager,
+  onToggleImageColumn,
+  isImageColumnVisible
 }) {
   const visibleColumns = columns.filter(c => c.visible);
 
@@ -110,7 +112,25 @@ export default function ItemTable({
           </div>
         </div>
 
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-2 flex-wrap gap-y-2">
+          {/* Direct Toggle Button for Image Column right after STT */}
+          <button
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
+              if (onToggleImageColumn) onToggleImageColumn();
+            }}
+            className={`text-xs font-semibold px-3 py-1.5 rounded-lg border transition flex items-center gap-1.5 cursor-pointer ${
+              isImageColumnVisible
+                ? 'bg-purple-100 text-purple-800 border-purple-300 dark:bg-purple-900/40 dark:text-purple-300 dark:border-purple-800 hover:bg-purple-200'
+                : 'bg-slate-100 hover:bg-purple-50 text-slate-700 hover:text-purple-700 border-slate-200 dark:bg-slate-800 dark:hover:bg-purple-900/30 dark:text-slate-300 dark:border-slate-700'
+            }`}
+            title={isImageColumnVisible ? "Click để ẩn cột ảnh sản phẩm" : "Click để hiện cột ảnh ngay sau cột STT"}
+          >
+            <ImageIcon className="w-3.5 h-3.5 text-purple-500" />
+            {isImageColumnVisible ? '✓ Ẩn Cột Ảnh' : '+ Thêm Cột Ảnh (Sau STT)'}
+          </button>
+
           <button
             onClick={onOpenColumnManager}
             className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-blue-50 hover:bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-300 transition flex items-center gap-1"

@@ -13,7 +13,19 @@ import { exportToExcel } from '../utils/excelExporter';
 import { exportToPDF } from '../utils/pdfExporter';
 import { exportToWord } from '../utils/wordExporter';
 
-export default function ExportToolbar({ seller, buyer, quotationMeta, columns, items, totals, onExportJson, onImportJson }) {
+export default function ExportToolbar({ 
+  seller, 
+  buyer, 
+  quotationMeta, 
+  columns, 
+  items, 
+  totals, 
+  onExportJson, 
+  onImportJson,
+  onDirectPrint,
+  onToggleImageColumn,
+  isImageColumnVisible
+}) {
   const [exporting, setExporting] = useState(null);
   const [successMsg, setSuccessMsg] = useState('');
 
@@ -97,7 +109,11 @@ export default function ExportToolbar({ seller, buyer, quotationMeta, columns, i
   };
 
   const handlePrint = () => {
-    window.print();
+    if (onDirectPrint) {
+      onDirectPrint();
+    } else {
+      window.print();
+    }
   };
 
   return (
@@ -109,85 +125,95 @@ export default function ExportToolbar({ seller, buyer, quotationMeta, columns, i
         <div>
           <h2 className="text-lg font-bold flex items-center gap-2">
             <Download className="w-5 h-5 text-emerald-400" />
-            Xuất Báo Giá Đa Định Dạng
+            In Báo Giá & Xuất File Tự Động
           </h2>
           <p className="text-xs text-slate-300">
-            Chọn định dạng phù hợp để gửi khách hàng. Hỗ trợ Excel nhúng ảnh, PDF, Word & CSV.
+            In trực tiếp ra máy in/file PDF khổ A4 hoặc tải file Excel nhúng ảnh, Word & PDF.
           </p>
         </div>
 
-        {/* Export Buttons Grid */}
+        {/* Action Buttons Grid */}
         <div className="flex flex-wrap items-center gap-2.5">
 
-          {/* Excel Export (PRIMARY FEATURE) */}
+          {/* Direct Print Button (PROMINENT PRIMARY ACTION) */}
+          <button
+            onClick={handlePrint}
+            className="px-5 py-2.5 bg-gradient-to-r from-indigo-500 to-blue-600 hover:from-indigo-600 hover:to-blue-700 active:from-indigo-700 active:to-blue-800 text-white font-bold text-xs sm:text-sm rounded-xl shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/50 transition flex items-center gap-2 transform hover:-translate-y-0.5"
+            title="Mở ngay cửa sổ in ấn tờ A4 hoặc Lưu dạng PDF trực tiếp"
+          >
+            <Printer className="w-4 h-4 text-white animate-pulse" />
+            🖨️ In Báo Giá (A4)
+          </button>
+
+          {/* Toggle Image Column Button */}
+          {onToggleImageColumn && (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                onToggleImageColumn();
+              }}
+              className={`px-3.5 py-2.5 font-semibold text-xs sm:text-sm rounded-xl border transition flex items-center gap-1.5 cursor-pointer ${
+                isImageColumnVisible
+                  ? 'bg-purple-600 hover:bg-purple-500 text-white border-purple-400 shadow-md'
+                  : 'bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-700'
+              }`}
+              title={isImageColumnVisible ? "Ẩn cột ảnh khỏi bản in" : "Thêm cột ảnh chèn ngay sau STT"}
+            >
+              🖼️ {isImageColumnVisible ? '✓ Đang mở cột ảnh' : '+ Thêm cột ảnh'}
+            </button>
+          )}
+
+          {/* Excel Export */}
           <button
             onClick={handleExportExcel}
             disabled={!!exporting}
-            className="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white font-bold text-xs sm:text-sm rounded-xl shadow-lg shadow-emerald-600/30 hover:shadow-emerald-500/40 transition flex items-center gap-2 disabled:opacity-50"
+            className="px-3.5 py-2.5 bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white font-semibold text-xs sm:text-sm rounded-xl shadow-md transition flex items-center gap-2 disabled:opacity-50"
           >
             {exporting === 'excel' ? (
               <Loader2 className="w-4 h-4 animate-spin" />
             ) : (
               <FileSpreadsheet className="w-4 h-4 text-emerald-200" />
             )}
-            Xuất Excel (.xlsx) có ảnh
+            Excel có ảnh
           </button>
 
           {/* PDF Export */}
           <button
             onClick={handleExportPdf}
             disabled={!!exporting}
-            className="px-3.5 py-2.5 bg-rose-600 hover:bg-rose-500 active:bg-rose-700 text-white font-medium text-xs sm:text-sm rounded-xl shadow-md transition flex items-center gap-2 disabled:opacity-50"
+            className="px-3 py-2.5 bg-rose-600 hover:bg-rose-500 text-white font-medium text-xs sm:text-sm rounded-xl shadow transition flex items-center gap-1.5 disabled:opacity-50"
           >
             {exporting === 'pdf' ? (
               <Loader2 className="w-4 h-4 animate-spin" />
             ) : (
               <FileText className="w-4 h-4 text-rose-200" />
             )}
-            Xuất PDF (A4)
+            File PDF
           </button>
 
           {/* Word Export */}
           <button
             onClick={handleExportWord}
             disabled={!!exporting}
-            className="px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white font-medium text-xs sm:text-sm rounded-xl shadow-md transition flex items-center gap-2 disabled:opacity-50"
+            className="px-3 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-medium text-xs sm:text-sm rounded-xl shadow transition flex items-center gap-1.5 disabled:opacity-50"
           >
             {exporting === 'word' ? (
               <Loader2 className="w-4 h-4 animate-spin" />
             ) : (
               <FileText className="w-4 h-4 text-blue-200" />
             )}
-            Xuất Word (.docx)
-          </button>
-
-          {/* CSV Export */}
-          <button
-            onClick={handleExportCsv}
-            disabled={!!exporting}
-            className="px-3 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium text-xs sm:text-sm rounded-xl border border-slate-700 transition flex items-center gap-1.5"
-          >
-            <FileCode className="w-4 h-4 text-slate-400" />
-            CSV
-          </button>
-
-          {/* Print Button */}
-          <button
-            onClick={handlePrint}
-            className="px-3 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium text-xs sm:text-sm rounded-xl border border-slate-700 transition flex items-center gap-1.5"
-          >
-            <Printer className="w-4 h-4 text-slate-400" />
-            In trực tiếp
+            Word (.docx)
           </button>
 
           {/* Backup JSON */}
           <button
             onClick={onExportJson}
-            className="px-3 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium text-xs sm:text-sm rounded-xl border border-slate-700 transition flex items-center gap-1.5"
+            className="px-3 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium text-xs sm:text-sm rounded-xl border border-slate-700 transition flex items-center gap-1.5"
             title="Lưu file JSON cấu hình để tải lại sau"
           >
             <FileDown className="w-4 h-4 text-indigo-400" />
-            Lưu Backup
+            Backup
           </button>
 
         </div>

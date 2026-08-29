@@ -16,15 +16,15 @@ const createSvgDataUrl = (title, color1, color2) => {
 };
 
 export const DEFAULT_COLUMNS = [
-  { id: 'stt', title: 'STT', type: 'stt', visible: true, width: '60px' },
-  { id: 'image', title: 'Hình ảnh', type: 'image', visible: true, width: '100px' },
-  { id: 'code', title: 'Mã SP', type: 'text', visible: true, width: '100px' },
-  { id: 'name', title: 'Tên sản phẩm / Dịch vụ', type: 'text', visible: true, width: '240px' },
-  { id: 'unit', title: 'ĐVT', type: 'text', visible: true, width: '80px' },
-  { id: 'quantity', title: 'Số lượng', type: 'number', visible: true, width: '90px' },
-  { id: 'price', title: 'Đơn giá (VNĐ)', type: 'currency', visible: true, width: '130px' },
-  { id: 'amount', title: 'Thành tiền (VNĐ)', type: 'currency', visible: true, width: '140px', readonly: true },
-  { id: 'note', title: 'Ghi chú', type: 'text', visible: true, width: '150px' }
+  { id: 'stt', title: 'STT', type: 'stt', visible: true, width: '50px' },
+  { id: 'image', title: 'Hình ảnh', type: 'image', visible: false, width: '80px' },
+  { id: 'code', title: 'Mã SP', type: 'text', visible: true, width: '90px' },
+  { id: 'name', title: 'Tên sản phẩm / Dịch vụ', type: 'text', visible: true, width: '260px' },
+  { id: 'unit', title: 'ĐVT', type: 'text', visible: true, width: '60px' },
+  { id: 'quantity', title: 'Số lượng', type: 'number', visible: true, width: '75px' },
+  { id: 'price', title: 'Đơn giá (VNĐ)', type: 'currency', visible: true, width: '110px' },
+  { id: 'amount', title: 'Thành tiền (VNĐ)', type: 'currency', visible: true, width: '120px', readonly: true },
+  { id: 'note', title: 'Ghi chú', type: 'text', visible: true, width: '130px' }
 ];
 
 export const PRESET_DATASETS = {

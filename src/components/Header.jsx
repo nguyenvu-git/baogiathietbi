@@ -25,7 +25,7 @@ export default function Header({
   onReset,
   previewMode,
   setPreviewMode,
-  onQuickExport
+  onDirectPrint
 }) {
   return (
     <header className="app-header bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 sticky top-0 z-40 shadow-sm transition-colors duration-200">
@@ -43,13 +43,25 @@ export default function Header({
                 Multi-Format
               </span>
             </h1>
-            <p className="text-xs text-slate-500 dark:text-slate-400">Xuất Excel có ảnh • PDF • Word • Không cần CSDL</p>
+            <p className="text-xs text-slate-500 dark:text-slate-400">Xuất Excel có ảnh • PDF • Word • In A4 trực tiếp</p>
           </div>
         </div>
 
         {/* Action Controls */}
         <div className="flex items-center space-x-2 sm:space-x-3">
           
+          {/* Direct Print Header Button */}
+          {onDirectPrint && (
+            <button
+              onClick={onDirectPrint}
+              className="flex items-center gap-1.5 text-xs sm:text-sm font-bold px-3 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white shadow transition"
+              title="In trực tiếp tờ A4 mà không cần tải file"
+            >
+              <Printer className="w-4 h-4" />
+              <span>In A4</span>
+            </button>
+          )}
+
           {/* Preset dataset dropdown */}
           <div className="relative group">
             <button 

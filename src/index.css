@@ -350,29 +350,61 @@ body {
 ::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.5); border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: rgba(100, 116, 139, 0.8); }
 
-/* Print Media Rules */
+/* Print Media Rules - ONLY print #quotation-print-area sheet */
 @media print {
-  body {
+  html, body {
     background: #ffffff !important;
     color: #000000 !important;
-    padding: 0 !important;
     margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    height: auto !important;
+    overflow: visible !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
 
+  /* Hide interactive non-printable controls */
   header, 
   .app-header, 
   .no-print,
   button,
-  footer {
+  footer,
+  input,
+  select,
+  textarea {
     display: none !important;
   }
 
-  #quotation-print-area {
-    box-shadow: none !important;
-    margin: 0 !important;
+  /* Reset main container layout */
+  main {
+    max-width: 100% !important;
     width: 100% !important;
-    min-height: auto !important;
     padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Quotation Printable Paper Sheet */
+  #quotation-print-area {
+    display: block !important;
+    visibility: visible !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-shadow: none !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    border: none !important;
+    border-radius: 0 !important;
+    position: relative !important;
+  }
+
+  table {
+    page-break-inside: auto;
+  }
+
+  tr {
+    page-break-inside: avoid;
+    page-break-after: auto;
   }
 
   @page {

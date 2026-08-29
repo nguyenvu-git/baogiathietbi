@@ -81,6 +81,39 @@ export default function App() {
     };
   }, [items, quotationMeta.discountRate, quotationMeta.vatRate]);
 
+  // Handler: Toggle Image Column (strictly right after STT, 100% immutable)
+  const handleToggleImageColumn = () => {
+    setColumns(prevColumns => {
+      const existingImg = prevColumns.find(c => c.id === 'image');
+      const isCurrentlyVisible = existingImg ? existingImg.visible : false;
+
+      if (isCurrentlyVisible) {
+        // Hide image column
+        return prevColumns.map(c => c.id === 'image' ? { ...c, visible: false } : { ...c });
+      } else {
+        // Show image column and place it strictly right after 'stt'
+        const colsWithoutImage = prevColumns.filter(c => c.id !== 'image').map(c => ({ ...c }));
+        const sttIdx = colsWithoutImage.findIndex(c => c.id === 'stt');
+        const newImgCol = existingImg 
+          ? { ...existingImg, visible: true }
+          : { id: 'image', title: 'Hình ảnh', type: 'image', visible: true, width: '80px' };
+        
+        const insertIdx = sttIdx >= 0 ? sttIdx + 1 : 1;
+        colsWithoutImage.splice(insertIdx, 0, newImgCol);
+        return colsWithoutImage;
+      }
+    });
+  };
+
+  const isImageColumnVisible = useMemo(() => {
+    return columns.some(c => c.id === 'image' && c.visible);
+  }, [columns]);
+
+  // Handler: Direct Print
+  const handleDirectPrint = () => {
+    window.print();
+  };
+
   // Handler: Load Preset
   const handleLoadPreset = (key) => {
     const dataset = PRESET_DATASETS[key];
@@ -182,6 +215,9 @@ export default function App() {
         onReset={handleReset}
         previewMode={previewMode}
         setPreviewMode={setPreviewMode}
+        onToggleImageColumn={handleToggleImageColumn}
+        isImageColumnVisible={isImageColumnVisible}
+        onDirectPrint={handleDirectPrint}
       />
 
       {/* Main Container */}
@@ -198,6 +234,9 @@ export default function App() {
             totals={totals}
             onExportJson={handleExportJson}
             onImportJson={handleImportJson}
+            onDirectPrint={handleDirectPrint}
+            onToggleImageColumn={handleToggleImageColumn}
+            isImageColumnVisible={isImageColumnVisible}
           />
         </div>
 
@@ -212,44 +251,63 @@ export default function App() {
               columns={columns}
               items={items}
               totals={totals}
+              onDirectPrint={handleDirectPrint}
+              onToggleImageColumn={handleToggleImageColumn}
+              isImageColumnVisible={isImageColumnVisible}
             />
           </div>
         ) : (
           /* Mode 2: Interactive Editor View */
           <div className="space-y-6 animate-fadeIn">
             
-            {/* Form 1: Company & Buyer Info */}
-            <CompanyInfoForm
-              seller={seller}
-              setSeller={setSeller}
-              buyer={buyer}
-              setBuyer={setBuyer}
-              quotationMeta={quotationMeta}
-              setQuotationMeta={setQuotationMeta}
-            />
+            {/* Form & Table Editor Section (Hidden on Print) */}
+            <div className="no-print space-y-6">
+              {/* Form 1: Company & Buyer Info */}
+              <CompanyInfoForm
+                seller={seller}
+                setSeller={setSeller}
+                buyer={buyer}
+                setBuyer={setBuyer}
+                quotationMeta={quotationMeta}
+                setQuotationMeta={setQuotationMeta}
+              />
 
-            {/* Form 2: Item List Table */}
-            <ItemTable
-              columns={columns}
-              items={items}
-              setItems={setItems}
-              totals={totals}
-              onOpenColumnManager={() => setColumnManagerOpen(true)}
-            />
+              {/* Form 2: Item List Table */}
+              <ItemTable
+                columns={columns}
+                items={items}
+                setItems={setItems}
+                totals={totals}
+                onOpenColumnManager={() => setColumnManagerOpen(true)}
+                onToggleImageColumn={handleToggleImageColumn}
+                isImageColumnVisible={isImageColumnVisible}
+              />
+            </div>
 
             {/* Live Mini Preview Canvas */}
-            <div className="no-print mt-12 border-t border-slate-200 dark:border-slate-800 pt-8">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+            <div className="mt-12 border-t border-slate-200 dark:border-slate-800 pt-8">
+              <div className="no-print flex items-center justify-between mb-4">
+                <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-2">
                   Xem trước bản in A4 (Live Preview)
                 </h3>
-                <button
-                  onClick={() => setPreviewMode(true)}
-                  className="text-xs font-semibold text-blue-600 dark:text-blue-400 hover:underline"
-                >
-                  Phóng to mẫu in A4 →
-                </button>
+                <div className="flex items-center space-x-3">
+                  <button
+                    type="button"
+                    onClick={handleDirectPrint}
+                    className="text-xs font-semibold px-3 py-1 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition cursor-pointer"
+                  >
+                    🖨️ In Báo Giá (A4)
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setPreviewMode(true)}
+                    className="text-xs font-semibold text-blue-600 dark:text-blue-400 hover:underline cursor-pointer"
+                  >
+                    Phóng to mẫu in A4 →
+                  </button>
+                </div>
               </div>
+
               <QuotationPreview
                 seller={seller}
                 buyer={buyer}
@@ -257,6 +315,9 @@ export default function App() {
                 columns={columns}
                 items={items}
                 totals={totals}
+                onDirectPrint={handleDirectPrint}
+                onToggleImageColumn={handleToggleImageColumn}
+                isImageColumnVisible={isImageColumnVisible}
               />
             </div>
 
