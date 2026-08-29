@@ -81,10 +81,10 @@ export default function QuotationPreview({
         </div>
       </div>
 
-      {/* Paper Sheet A4 Simulation */}
+      {/* Paper Sheet A4 Simulation - Top 6mm (flush to top), Sides 10mm */}
       <div 
         id="quotation-print-area"
-        className="bg-white text-slate-900 shadow-2xl rounded-none w-[210mm] min-h-[297mm] p-[16mm] mx-auto text-xs font-sans leading-relaxed relative flex flex-col justify-between"
+        className="bg-white text-slate-900 shadow-2xl rounded-none w-[210mm] min-h-[297mm] px-[10mm] pt-[6mm] pb-[8mm] mx-auto text-xs font-sans leading-relaxed relative flex flex-col justify-between"
         style={{ boxSizing: 'border-box' }}
       >
         <div>

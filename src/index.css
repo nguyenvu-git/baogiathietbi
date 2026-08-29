@@ -350,8 +350,13 @@ body {
 ::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.5); border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: rgba(100, 116, 139, 0.8); }
 
-/* Print Media Rules - ONLY print #quotation-print-area sheet */
+/* Print Media Rules - Clean A4 Print without Browser Headers/Footers */
 @media print {
+  @page {
+    size: A4 portrait;
+    margin: 0; /* Xóa hoàn toàn tiêu đề, ngày tháng, tên trang & URL trình duyệt */
+  }
+
   html, body {
     background: #ffffff !important;
     color: #000000 !important;
@@ -384,18 +389,18 @@ body {
     margin: 0 !important;
   }
 
-  /* Quotation Printable Paper Sheet */
+  /* Quotation Printable Paper Sheet - Pushed flush to top edge (6mm top padding) */
   #quotation-print-area {
     display: block !important;
     visibility: visible !important;
-    width: 100% !important;
-    max-width: 100% !important;
+    width: 210mm !important;
     box-shadow: none !important;
     margin: 0 auto !important;
-    padding: 0 !important;
+    padding: 6mm 10mm 8mm 10mm !important; /* Top 6mm (sát mép trên), Left/Right 10mm, Bottom 8mm */
     border: none !important;
     border-radius: 0 !important;
     position: relative !important;
+    box-sizing: border-box !important;
   }
 
   table {
@@ -405,10 +410,5 @@ body {
   tr {
     page-break-inside: avoid;
     page-break-after: auto;
-  }
-
-  @page {
-    size: A4 portrait;
-    margin: 10mm;
   }
 }
