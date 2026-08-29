@@ -354,7 +354,7 @@ body {
 @media print {
   @page {
     size: A4 portrait;
-    margin: 0; /* Xóa hoàn toàn tiêu đề, ngày tháng, tên trang & URL trình duyệt */
+    margin: 10mm 12mm; /* Margin thực tế trên mỗi trang, nội dung sát mép trên ở trang 2, 3... */
   }
 
   html, body {
@@ -382,33 +382,51 @@ body {
   }
 
   /* Reset main container layout */
-  main {
+  main, .print-wrapper {
     max-width: 100% !important;
     width: 100% !important;
     padding: 0 !important;
     margin: 0 !important;
   }
 
-  /* Quotation Printable Paper Sheet - Pushed flush to top edge (2mm top padding) */
+  /* Quotation Printable Paper Sheet */
   #quotation-print-area {
     display: block !important;
     visibility: visible !important;
-    width: 210mm !important;
+    width: 100% !important;
     box-shadow: none !important;
-    margin: 0 auto !important;
-    padding: 2mm 10mm 6mm 10mm !important; /* Top 2mm (sát sát mép trên), Left/Right 10mm, Bottom 6mm */
+    margin: 0 !important;
+    padding: 0 !important; /* @page margin handles the whitespace on all pages */
     border: none !important;
     border-radius: 0 !important;
     position: relative !important;
     box-sizing: border-box !important;
+    min-height: unset !important;
   }
 
+  /* Table page-break optimization */
   table {
     page-break-inside: auto;
+    width: 100%;
+    border-collapse: collapse;
   }
 
+  /* Table header repeats at top of every new page, flush to top margin */
+  thead {
+    display: table-header-group;
+  }
+
+  tfoot {
+    display: table-footer-group;
+  }
+
+  /* Prevent individual rows from splitting across pages */
   tr {
-    page-break-inside: avoid;
+    page-break-inside: avoid !important;
     page-break-after: auto;
+  }
+
+  tbody tr {
+    page-break-inside: avoid !important;
   }
 }
