@@ -156,7 +156,7 @@ export default function QuotationPreview({
             className="w-auto min-w-[60%] border-collapse mb-4 text-xs" style={{ border: '1.5px solid #334155' }}
           >
             <thead>
-              <tr className="bg-blue-900 text-white text-[11px] font-bold uppercase">
+              <tr className="bg-blue-900 text-white text-[9px] font-bold uppercase">
                 {visibleColumns.map(col => (
                   <th 
                     key={col.id}
