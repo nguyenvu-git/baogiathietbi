@@ -91,13 +91,16 @@ export default function QuotationPreview({
           {/* Header Section: Logo & Seller Info */}
           <div className="flex justify-between items-start border-b-2 border-blue-900 pb-6 mb-10">
             <div className="flex items-center space-x-4">
-              {seller.logo ? (
-                <img src={seller.logo} alt="Logo" className="max-h-16 max-w-[140px] object-contain" />
-              ) : (
-                <div className="w-14 h-14 bg-blue-900 text-white font-bold flex items-center justify-center rounded text-xl">
-                  {seller.companyName ? seller.companyName.charAt(0) : 'BG'}
-                </div>
-              )}
+              {/* Fixed Logo Box (Standard 130px x 56px) */}
+              <div className="w-[130px] h-[56px] flex items-center justify-start overflow-hidden shrink-0">
+                {seller.logo ? (
+                  <img src={seller.logo} alt="Logo" className="w-full h-full object-contain object-left" />
+                ) : (
+                  <div className="w-14 h-14 bg-blue-900 text-white font-bold flex items-center justify-center rounded text-xl">
+                    {seller.companyName ? seller.companyName.charAt(0) : 'BG'}
+                  </div>
+                )}
+              </div>
               <div>
                 <h1 className="text-base font-bold text-blue-950 uppercase tracking-wide">
                   {seller.companyName || 'CÔNG TY BÁO GIÁ'}

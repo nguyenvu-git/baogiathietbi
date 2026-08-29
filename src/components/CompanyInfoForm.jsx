@@ -9,7 +9,34 @@ export default function CompanyInfoForm({ seller, setSeller, buyer, setBuyer, qu
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setSeller({ ...seller, logo: reader.result });
+        const img = new Image();
+        img.onload = () => {
+          // Standardize logo image resolution using HTML5 Canvas
+          const MAX_WIDTH = 400;
+          const MAX_HEIGHT = 200;
+          let width = img.width;
+          let height = img.height;
+
+          if (width > MAX_WIDTH || height > MAX_HEIGHT) {
+            if (width / height > MAX_WIDTH / MAX_HEIGHT) {
+              height = Math.round((height * MAX_WIDTH) / width);
+              width = MAX_WIDTH;
+            } else {
+              width = Math.round((width * MAX_HEIGHT) / height);
+              height = MAX_HEIGHT;
+            }
+          }
+
+          const canvas = document.createElement('canvas');
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+
+          const resizedDataUrl = canvas.toDataURL(file.type || 'image/png', 0.9);
+          setSeller({ ...seller, logo: resizedDataUrl });
+        };
+        img.src = reader.result;
       };
       reader.readAsDataURL(file);
     }
@@ -32,7 +59,7 @@ export default function CompanyInfoForm({ seller, setSeller, buyer, setBuyer, qu
             <p className="text-xs text-slate-500 dark:text-slate-400">Nhập logo, tên công ty, thông tin người mua và thông số báo giá</p>
           </div>
         </div>
-        <button className="p-1 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+        <button type="button" className="p-1 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer">
           {collapsed ? <ChevronDown className="w-5 h-5" /> : <ChevronUp className="w-5 h-5" />}
         </button>
       </div>
@@ -48,23 +75,24 @@ export default function CompanyInfoForm({ seller, setSeller, buyer, setBuyer, qu
               </h3>
             </div>
 
-            {/* Logo Upload Box */}
+            {/* Logo Upload Box (Fixed 112px x 64px Box) */}
             <div className="flex items-center gap-4">
-              <div className="relative w-24 h-24 rounded-xl border-2 border-dashed border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 flex flex-col items-center justify-center text-center overflow-hidden group">
+              <div className="relative w-28 h-16 rounded-xl border-2 border-dashed border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 flex flex-col items-center justify-center text-center overflow-hidden group shrink-0">
                 {seller.logo ? (
                   <>
-                    <img src={seller.logo} alt="Company Logo" className="w-full h-full object-contain p-2" />
+                    <img src={seller.logo} alt="Company Logo" className="w-full h-full object-contain p-1.5" />
                     <button
+                      type="button"
                       onClick={() => setSeller({ ...seller, logo: null })}
-                      className="absolute inset-0 bg-slate-900/60 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition"
+                      className="absolute inset-0 bg-slate-900/60 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition cursor-pointer"
                       title="Xóa logo"
                     >
                       <Trash2 className="w-5 h-5 text-rose-400" />
                     </button>
                   </>
                 ) : (
-                  <label className="cursor-pointer w-full h-full flex flex-col items-center justify-center p-2 text-slate-400 hover:text-blue-500 transition">
-                    <Upload className="w-6 h-6 mb-1" />
+                  <label className="cursor-pointer w-full h-full flex flex-col items-center justify-center p-1 text-slate-400 hover:text-blue-500 transition">
+                    <Upload className="w-5 h-5 mb-0.5" />
                     <span className="text-[10px] font-medium">Tải Logo</span>
                     <input type="file" accept="image/*" onChange={handleLogoUpload} className="hidden" />
                   </label>
