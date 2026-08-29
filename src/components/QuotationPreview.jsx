@@ -91,22 +91,22 @@ export default function QuotationPreview({
           {/* Header Section: Logo & Seller Info */}
           <div className="flex justify-between items-start border-b-2 border-blue-900 pb-6 mb-10">
             <div className="flex items-center space-x-4">
-              {/* Strict Fixed Logo Box (24mm x 13mm) */}
+              {/* Strict Fixed Logo Box (32mm x 24mm with rounded corners) */}
               {seller.logo ? (
                 <div 
-                  className="shrink-0 overflow-hidden bg-white flex items-center justify-center border border-slate-200 rounded p-0.5"
-                  style={{ width: '24mm', height: '13mm' }}
+                  className="shrink-0 overflow-hidden bg-white flex items-center justify-center border border-slate-200 shadow-sm rounded-xl p-1"
+                  style={{ width: '32mm', height: '24mm', borderRadius: '10px' }}
                 >
                   <img 
                     src={seller.logo} 
                     alt="Logo" 
-                    style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }} 
+                    style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block', borderRadius: '6px' }} 
                   />
                 </div>
               ) : (
                 <div 
-                  className="bg-blue-900 text-white font-bold flex items-center justify-center rounded text-base shrink-0 shadow-sm"
-                  style={{ width: '24mm', height: '13mm' }}
+                  className="bg-blue-900 text-white font-bold flex items-center justify-center rounded-xl text-lg shrink-0 shadow-sm"
+                  style={{ width: '32mm', height: '24mm', borderRadius: '10px' }}
                 >
                   {seller.companyName ? seller.companyName.charAt(0) : 'BG'}
                 </div>
