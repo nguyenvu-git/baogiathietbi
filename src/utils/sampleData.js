@@ -19,11 +19,11 @@ export const DEFAULT_COLUMNS = [
   { id: 'stt', title: 'STT', type: 'stt', visible: true, width: '50px' },
   { id: 'image', title: 'Hình ảnh', type: 'image', visible: false, width: '80px' },
   { id: 'code', title: 'Mã SP', type: 'text', visible: true, width: '90px' },
-  { id: 'name', title: 'Tên sản phẩm / Dịch vụ', type: 'text', visible: true, width: '260px' },
+  { id: 'name', title: 'Tên SP/DV', type: 'text', visible: true, width: '260px' },
   { id: 'unit', title: 'ĐVT', type: 'text', visible: true, width: '60px' },
-  { id: 'quantity', title: 'Số lượng', type: 'number', visible: true, width: '75px' },
-  { id: 'price', title: 'Đơn giá (VNĐ)', type: 'currency', visible: true, width: '110px' },
-  { id: 'amount', title: 'Thành tiền (VNĐ)', type: 'currency', visible: true, width: '120px', readonly: true },
+  { id: 'quantity', title: 'SL', type: 'number', visible: true, width: '75px' },
+  { id: 'price', title: 'Đơn giá (đ)', type: 'currency', visible: true, width: '110px' },
+  { id: 'amount', title: 'Thành tiền (đ)', type: 'currency', visible: true, width: '120px', readonly: true },
   { id: 'note', title: 'Ghi chú', type: 'text', visible: true, width: '130px' }
 ];
 
