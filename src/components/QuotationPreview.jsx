@@ -249,23 +249,21 @@ export default function QuotationPreview({
           </div>
         </div>
 
-        {/* Footer & Signatures - Compacted gap */}
+        {/* Footer & Signatures - Clean Blank Area for Manual Signature & Stamp */}
         <div className="mt-4 pt-2 border-t border-slate-200">
           <div className="grid grid-cols-2 gap-4 text-center text-xs">
             <div>
               <p className="font-bold text-slate-900 uppercase">ĐẠI DIỆN KHÁCH HÀNG</p>
-              <p className="text-[9.5px] italic text-slate-500 mb-6">(Ký, ghi rõ họ tên)</p>
-              <p className="font-semibold text-slate-800">{buyer.customerName}</p>
+              <p className="text-[9.5px] italic text-slate-500 mb-10">(Ký, ghi rõ họ tên)</p>
             </div>
             <div>
               <p className="font-bold text-blue-900 uppercase">ĐẠI DIỆN BÊN BÁO GIÁ</p>
-              <p className="text-[9.5px] italic text-slate-500 mb-6">(Ký, đóng dấu, ghi rõ họ tên)</p>
-              <p className="font-semibold text-slate-800">{seller.companyName}</p>
+              <p className="text-[9.5px] italic text-slate-500 mb-10">(Ký, đóng dấu, ghi rõ họ tên)</p>
             </div>
           </div>
           
-          <div className="text-center text-[9.5px] text-slate-400 mt-6 pt-3 border-t border-slate-100">
-            Báo giá được tạo tự động bởi Hệ thống Báo Giá Pro • Cảm ơn Quý khách hàng đã tin tưởng hợp tác!
+          <div className="text-center text-[9.5px] text-slate-400 mt-4 pt-2 border-t border-slate-100">
+            Cảm ơn Quý khách hàng đã tin tưởng hợp tác!
           </div>
         </div>
       </div>
