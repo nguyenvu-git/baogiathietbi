@@ -8,7 +8,9 @@ export async function exportToExcel({ seller, buyer, quotationMeta, columns, ite
   workbook.lastModifiedBy = seller.companyName || 'Hệ thống Báo giá';
   workbook.created = new Date();
 
-  const worksheet = workbook.addWorksheet('Báo Giá', {
+  const isInvoice = quotationMeta.docType === 'invoice';
+  const worksheetName = isInvoice ? 'Hóa Đơn' : 'Báo Giá';
+  const worksheet = workbook.addWorksheet(worksheetName, {
     pageSetup: { paperSize: 9, orientation: 'portrait' }
   });
 
@@ -38,7 +40,7 @@ export async function exportToExcel({ seller, buyer, quotationMeta, columns, ite
   // Seller info (Right aligned or next to logo)
   worksheet.mergeCells(`C${currentRow}:G${currentRow}`);
   const sellerTitleCell = worksheet.getCell(`C${currentRow}`);
-  sellerTitleCell.value = (seller.companyName || 'CÔNG TY BÁO GIÁ').toUpperCase();
+  sellerTitleCell.value = (seller.companyName || (isInvoice ? 'ĐƠN VỊ BÁN HÀNG' : 'CÔNG TY BÁO GIÁ')).toUpperCase();
   sellerTitleCell.font = { name: 'Arial', size: 14, bold: true, color: { argb: 'FF1E293B' } };
   sellerTitleCell.alignment = { vertical: 'middle', horizontal: 'left' };
 
@@ -54,13 +56,13 @@ export async function exportToExcel({ seller, buyer, quotationMeta, columns, ite
 
   currentRow += 2;
 
-  // --- QUOTATION TITLE ---
+  // --- DOCUMENT TITLE ---
   const activeColsCount = columns.filter(c => c.visible).length || 6;
   const lastColLetter = String.fromCharCode(65 + Math.max(activeColsCount - 1, 5));
 
   worksheet.mergeCells(`A${currentRow}:${lastColLetter}${currentRow}`);
   const titleCell = worksheet.getCell(`A${currentRow}`);
-  titleCell.value = 'BẢNG BÁO GIÁ';
+  titleCell.value = isInvoice ? 'HÓA ĐƠN BÁN HÀNG' : 'BẢNG BÁO GIÁ';
   titleCell.font = { name: 'Arial', size: 18, bold: true, color: { argb: 'FF1E40AF' } };
   titleCell.alignment = { horizontal: 'center', vertical: 'middle' };
   worksheet.getRow(currentRow).height = 30;
@@ -68,7 +70,7 @@ export async function exportToExcel({ seller, buyer, quotationMeta, columns, ite
   currentRow++;
   worksheet.mergeCells(`A${currentRow}:${lastColLetter}${currentRow}`);
   const subTitleCell = worksheet.getCell(`A${currentRow}`);
-  subTitleCell.value = `Số: ${quotationMeta.code || 'BG-001'} | Ngày: ${quotationMeta.date || new Date().toLocaleDateString('vi-VN')}`;
+  subTitleCell.value = `Số: ${quotationMeta.code || (isInvoice ? 'HD-001' : 'BG-001')} | Ngày: ${quotationMeta.date || new Date().toLocaleDateString('vi-VN')}`;
   subTitleCell.font = { name: 'Arial', size: 10, italic: true, color: { argb: 'FF64748B' } };
   subTitleCell.alignment = { horizontal: 'center', vertical: 'middle' };
 
@@ -249,12 +251,12 @@ export async function exportToExcel({ seller, buyer, quotationMeta, columns, ite
 
   // --- FOOTER & SIGNATURES ---
   worksheet.mergeCells(`A${currentRow}:C${currentRow}`);
-  worksheet.getCell(`A${currentRow}`).value = 'ĐẠI DIỆN KHÁCH HÀNG';
+  worksheet.getCell(`A${currentRow}`).value = isInvoice ? 'NGƯỜI MUA HÀNG' : 'ĐẠI DIỆN KHÁCH HÀNG';
   worksheet.getCell(`A${currentRow}`).font = { name: 'Arial', size: 10, bold: true };
   worksheet.getCell(`A${currentRow}`).alignment = { horizontal: 'center' };
 
   worksheet.mergeCells(`D${currentRow}:${lastColLetter}${currentRow}`);
-  worksheet.getCell(`D${currentRow}`).value = 'ĐẠI DIỆN BÊN BÁO GIÁ';
+  worksheet.getCell(`D${currentRow}`).value = isInvoice ? 'NGƯỜI BÁN HÀNG' : 'ĐẠI DIỆN BÊN BÁO GIÁ';
   worksheet.getCell(`D${currentRow}`).font = { name: 'Arial', size: 10, bold: true };
   worksheet.getCell(`D${currentRow}`).alignment = { horizontal: 'center' };
 
@@ -282,6 +284,8 @@ export async function exportToExcel({ seller, buyer, quotationMeta, columns, ite
   // Generate buffer and trigger download
   const buffer = await workbook.xlsx.writeBuffer();
   const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-  const filename = `BaoGia_${quotationMeta.code || 'BG001'}_${new Date().toISOString().slice(0,10)}.xlsx`;
+  const filePrefix = isInvoice ? 'HoaDon' : 'BaoGia';
+  const filename = `${filePrefix}_${quotationMeta.code || (isInvoice ? 'HD001' : 'BG001')}_${new Date().toISOString().slice(0,10)}.xlsx`;
   saveAs(blob, filename);
 }
+

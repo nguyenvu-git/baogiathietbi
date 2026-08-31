@@ -22,8 +22,8 @@ export const DEFAULT_COLUMNS = [
   { id: 'name', title: 'Tên SP/DV', type: 'text', visible: true, width: '260px' },
   { id: 'unit', title: 'ĐVT', type: 'text', visible: true, width: '60px' },
   { id: 'quantity', title: 'SL', type: 'number', visible: true, width: '75px' },
-  { id: 'price', title: 'Đơn giá (đ)', type: 'currency', visible: true, width: '110px' },
-  { id: 'amount', title: 'Thành tiền (đ)', type: 'currency', visible: true, width: '120px', readonly: true },
+  { id: 'price', title: 'Đơn giá (đ)', type: 'currency', visible: true, width: '180px' },
+  { id: 'amount', title: 'Thành tiền (đ)', type: 'currency', visible: true, width: '160px', readonly: true },
   { id: 'note', title: 'Ghi chú', type: 'text', visible: true, width: '130px' }
 ];
 
@@ -47,6 +47,7 @@ export const PRESET_DATASETS = {
       address: 'Tầng 8, Tòa nhà Landmark 81, Q. Bình Thạnh, TP. HCM'
     },
     quotationMeta: {
+      docType: 'quotation',
       code: 'BG-NT-2026-088',
       date: new Date().toISOString().slice(0, 10),
       validDays: 30,
@@ -123,6 +124,7 @@ export const PRESET_DATASETS = {
       address: '268 Lý Thường Kiệt, Quận 10, TP. HCM'
     },
     quotationMeta: {
+      docType: 'quotation',
       code: 'BG-IT-2026-102',
       date: new Date().toISOString().slice(0, 10),
       validDays: 15,

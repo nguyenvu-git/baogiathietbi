@@ -145,6 +145,7 @@ export default function App() {
         address: ''
       });
       setQuotationMeta({
+        docType: 'quotation',
         code: `BG-${Date.now().toString().slice(-4)}`,
         date: new Date().toISOString().slice(0, 10),
         validDays: 30,

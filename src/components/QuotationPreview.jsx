@@ -125,17 +125,19 @@ export default function QuotationPreview({
 
             <div className="text-right">
               <span className="inline-block bg-blue-50 text-blue-900 text-[10px] font-bold px-2 py-0.5 rounded border border-blue-200 uppercase tracking-wider">
-                Bảng Báo Giá
+                {quotationMeta.docType === 'invoice' ? 'Hóa Đơn Bán Hàng' : 'Bảng Báo Giá'}
               </span>
-              <p className="text-[9.5px] text-slate-500 mt-1 font-mono">Mã: {quotationMeta.code}</p>
+              <p className="text-[9.5px] text-slate-500 mt-1 font-mono">
+                {quotationMeta.docType === 'invoice' ? 'Mã HD:' : 'Mã:'} {quotationMeta.code}
+              </p>
               <p className="text-[9.5px] text-slate-500 font-mono">Ngày: {quotationMeta.date}</p>
             </div>
           </div>
 
-          {/* Quotation Title - Compact font, removed validity line */}
+          {/* Quotation / Invoice Title */}
           <div className="text-center my-3">
             <h2 className="text-base font-extrabold text-blue-900 tracking-wide uppercase">
-              BẢNG BÁO GIÁ SẢN PHẨM & DỊCH VỤ
+              {quotationMeta.docType === 'invoice' ? 'HÓA ĐƠN BÁN HÀNG' : 'BẢNG BÁO GIÁ SẢN PHẨM & DỊCH VỤ'}
             </h2>
           </div>
 
@@ -251,15 +253,19 @@ export default function QuotationPreview({
           </div>
         </div>
 
-        {/* Footer & Signatures - Clean Blank Area for Manual Signature & Stamp */}
+        {/* Footer & Signatures */}
         <div className="mt-4 pt-2 border-t border-slate-200">
           <div className="grid grid-cols-2 gap-4 text-center text-xs">
             <div>
-              <p className="font-bold text-slate-900 uppercase">ĐẠI DIỆN KHÁCH HÀNG</p>
+              <p className="font-bold text-slate-900 uppercase">
+                {quotationMeta.docType === 'invoice' ? 'NGƯỜI MUA HÀNG' : 'ĐẠI DIỆN KHÁCH HÀNG'}
+              </p>
               <p className="text-[9.5px] italic text-slate-500 mb-10">(Ký, ghi rõ họ tên)</p>
             </div>
             <div>
-              <p className="font-bold text-blue-900 uppercase">ĐẠI DIỆN BÊN BÁO GIÁ</p>
+              <p className="font-bold text-blue-900 uppercase">
+                {quotationMeta.docType === 'invoice' ? 'NGƯỜI BÁN HÀNG' : 'ĐẠI DIỆN BÊN BÁO GIÁ'}
+              </p>
               <p className="text-[9.5px] italic text-slate-500 mb-10">(Ký, đóng dấu, ghi rõ họ tên)</p>
             </div>
           </div>

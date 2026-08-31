@@ -36,13 +36,15 @@ export async function exportToWord({ seller, buyer, quotationMeta, columns, item
 
   const docChildren = [];
 
+  const isInvoice = quotationMeta.docType === 'invoice';
+
   // Seller & Title Header
   docChildren.push(
     new Paragraph({
       alignment: AlignmentType.CENTER,
       children: [
         new TextRun({
-          text: (seller.companyName || 'CÔNG TY BÁO GIÁ').toUpperCase(),
+          text: (seller.companyName || (isInvoice ? 'ĐƠN VỊ BÁN HÀNG' : 'CÔNG TY BÁO GIÁ')).toUpperCase(),
           bold: true,
           size: 28,
           color: '1E3A8A'
@@ -65,7 +67,7 @@ export async function exportToWord({ seller, buyer, quotationMeta, columns, item
       alignment: AlignmentType.CENTER,
       children: [
         new TextRun({
-          text: 'BẢNG BÁO GIÁ',
+          text: isInvoice ? 'HÓA ĐƠN BÁN HÀNG' : 'BẢNG BÁO GIÁ',
           bold: true,
           size: 36,
           color: '1E40AF'
@@ -76,7 +78,7 @@ export async function exportToWord({ seller, buyer, quotationMeta, columns, item
       alignment: AlignmentType.CENTER,
       children: [
         new TextRun({
-          text: `Mã báo giá: ${quotationMeta.code || 'BG001'} | Ngày: ${quotationMeta.date || new Date().toLocaleDateString('vi-VN')}`,
+          text: `${isInvoice ? 'Mã HD' : 'Mã báo giá'}: ${quotationMeta.code || (isInvoice ? 'HD001' : 'BG001')} | Ngày: ${quotationMeta.date || new Date().toLocaleDateString('vi-VN')}`,
           size: 20,
           italics: true,
           color: '475569'
@@ -262,7 +264,13 @@ export async function exportToWord({ seller, buyer, quotationMeta, columns, item
     new Paragraph({
       alignment: AlignmentType.CENTER,
       children: [
-        new TextRun({ text: 'ĐẠI DIỆN KHÁCH HÀNG                                ĐẠI DIỆN BÊN BÁO GIÁ', bold: true, size: 22 })
+        new TextRun({
+          text: isInvoice
+            ? 'NGƯỜI MUA HÀNG                                NGƯỜI BÁN HÀNG'
+            : 'ĐẠI DIỆN KHÁCH HÀNG                                ĐẠI DIỆN BÊN BÁO GIÁ',
+          bold: true,
+          size: 22
+        })
       ]
     }),
     new Paragraph({
@@ -283,5 +291,6 @@ export async function exportToWord({ seller, buyer, quotationMeta, columns, item
   });
 
   const blob = await Packer.toBlob(doc);
-  saveAs(blob, `BaoGia_${quotationMeta.code || 'BG001'}.docx`);
+  const filePrefix = isInvoice ? 'HoaDon' : 'BaoGia';
+  saveAs(blob, `${filePrefix}_${quotationMeta.code || (isInvoice ? 'HD001' : 'BG001')}.docx`);
 }

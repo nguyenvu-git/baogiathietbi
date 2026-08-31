@@ -229,16 +229,65 @@ export default function CompanyInfoForm({ seller, setSeller, buyer, setBuyer, qu
             </div>
           </div>
 
-          {/* Column 3: Thông số Báo giá & Thuế */}
+          {/* Column 3: Thông số Chứng từ & Thuế */}
           <div className="space-y-4">
             <h3 className="text-xs font-bold uppercase tracking-wider text-purple-600 dark:text-purple-400 flex items-center gap-1.5">
-              <FileBadge className="w-4 h-4" /> Thông Số Báo Giá
+              <FileBadge className="w-4 h-4" /> Loại Chứng Từ & Thông Số
             </h3>
 
             <div className="space-y-3">
+              {/* Document Type Switcher */}
+              <div>
+                <label className="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1.5">Loại chứng từ</label>
+                <div className="grid grid-cols-2 gap-2 p-1 bg-slate-100 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const isInvoice = quotationMeta.docType === 'invoice';
+                      const currentCode = quotationMeta.code || '';
+                      let newCode = currentCode;
+                      if (currentCode.startsWith('HD-')) {
+                        newCode = currentCode.replace('HD-', 'BG-');
+                      }
+                      setQuotationMeta({ ...quotationMeta, docType: 'quotation', code: newCode });
+                    }}
+                    className={`py-2 px-3 text-xs font-bold rounded-lg transition flex items-center justify-center gap-1.5 cursor-pointer ${
+                      (quotationMeta.docType || 'quotation') === 'quotation'
+                        ? 'bg-blue-600 text-white shadow-sm'
+                        : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                    }`}
+                  >
+                    📄 Báo Giá
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const isQuotation = (quotationMeta.docType || 'quotation') === 'quotation';
+                      const currentCode = quotationMeta.code || '';
+                      let newCode = currentCode;
+                      if (currentCode.startsWith('BG-')) {
+                        newCode = currentCode.replace('BG-', 'HD-');
+                      } else if (!currentCode.startsWith('HD-')) {
+                        newCode = `HD-${Date.now().toString().slice(-4)}`;
+                      }
+                      setQuotationMeta({ ...quotationMeta, docType: 'invoice', code: newCode });
+                    }}
+                    className={`py-2 px-3 text-xs font-bold rounded-lg transition flex items-center justify-center gap-1.5 cursor-pointer ${
+                      quotationMeta.docType === 'invoice'
+                        ? 'bg-purple-600 text-white shadow-sm'
+                        : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                    }`}
+                  >
+                    🧾 Hóa Đơn
+                  </button>
+                </div>
+              </div>
+
               <div className="grid grid-cols-2 gap-2">
                 <div>
-                  <label className="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">Mã báo giá</label>
+                  <label className="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">
+                    {quotationMeta.docType === 'invoice' ? 'Mã hóa đơn' : 'Mã báo giá'}
+                  </label>
                   <input
                     type="text"
                     value={quotationMeta.code}
@@ -263,6 +312,7 @@ export default function CompanyInfoForm({ seller, setSeller, buyer, setBuyer, qu
                   <input
                     type="number"
                     value={quotationMeta.validDays}
+                    onWheel={(e) => e.target.blur()}
                     onChange={(e) => setQuotationMeta({ ...quotationMeta, validDays: Number(e.target.value) })}
                     className="w-full px-3 py-2 text-sm rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
                   />
@@ -272,6 +322,7 @@ export default function CompanyInfoForm({ seller, setSeller, buyer, setBuyer, qu
                   <input
                     type="number"
                     value={quotationMeta.discountRate}
+                    onWheel={(e) => e.target.blur()}
                     onChange={(e) => setQuotationMeta({ ...quotationMeta, discountRate: Number(e.target.value) })}
                     className="w-full px-3 py-2 text-sm rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
                   />
@@ -281,6 +332,7 @@ export default function CompanyInfoForm({ seller, setSeller, buyer, setBuyer, qu
                   <input
                     type="number"
                     value={quotationMeta.vatRate}
+                    onWheel={(e) => e.target.blur()}
                     onChange={(e) => setQuotationMeta({ ...quotationMeta, vatRate: Number(e.target.value) })}
                     className="w-full px-3 py-2 text-sm rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
                   />
